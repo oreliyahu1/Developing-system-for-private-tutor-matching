@@ -23,3 +23,11 @@ HOW TO RUN THE PROJECT
 2. reload a preliminary database by reading 'db_cmds.txt' at 'db'
 3. to run client side: go to 'src/client' and run 'ng serve' (please make sure you have all required packages by step 1)
 4. to run server side: go to 'src' and run 'node server' (please make sure you have all required packages by step 1)
+
+-----------------------------------
+
+QP alg
+https://github.com/albertosantini/node-quadprog
+
+UI
+https://coreui.io/angular
