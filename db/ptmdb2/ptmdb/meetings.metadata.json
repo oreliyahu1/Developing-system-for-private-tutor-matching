@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"ptmdb.meetings"}],"uuid":"add57e923a564ce59bdcd45861349057"}

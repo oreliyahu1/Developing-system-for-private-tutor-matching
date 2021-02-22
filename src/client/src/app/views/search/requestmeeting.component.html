@@ -1,0 +1,130 @@
+<style>
+   input {
+      visibility: hidden;
+      width: 0;
+   }
+</style>
+<div class="animated fadeIn">
+   <div class="card">
+      <div class="card-body">
+         <h3>Seasson in {{course}}</h3>
+         <br>
+         <button [owlDateTimeTrigger]="dt2" type="button" class="btn btn-pill btn-danger">
+         <i class="fa fa-calendar"></i>&nbsp;{{ DateTime == "" ? 'Pick a Date' : DateTime | date:'dd-MM-yyyy HH:mm'}}</button>
+         <!--<span  ><i [owlDateTimeTrigger]="dt2" class="fa fa-calendar"></i></span>-->
+         <input [(ngModel)]="DateTime" [min]="getDate(0)" [max]="getDate(6)" [owlDateTime]="dt2" [readonly]="true"
+            placeholder="Date Time">
+         <owl-date-time #dt2 [stepHour]="1" [stepMinute]="30"></owl-date-time>
+         <h6></h6>
+         <div class="card">
+            <div class="card-body">
+               <div class="row">
+                  <div class="col-sm-3 col-md-3">
+                     <h2>{{tutor.firstname}} {{tutor.lastname}}</h2>
+                     <div class="small text-muted">
+                        <span>{{course}} and {{tutor.courses.length - 1}} other subjects!</span>
+                     </div>
+                     <div class="small text-muted">
+                        <i class="icon-location-pin"></i>
+                        <span>Location {{tutor.location.country}} {{tutor.location.city}} {{tutor.location.street}}</span>
+                     </div>
+                  </div>
+                  <div class="col-sm-3 col-md-3">
+                     <div class="clearfix">
+                        <div class="float-left">
+                           <strong>{{tutor.matchingGrade | number: '1.0-1'}}%</strong>
+                        </div>
+                        <div class="float-right">
+                           <small *ngIf="tutor.matchingGrade>=87" class="text-muted">Excelent!</small>
+                           <small *ngIf="(tutor.matchingGrade >= 70 && tutor.matchingGrade<87)" class="text-muted">Good to go!</small>
+                           <small *ngIf="(tutor.matchingGrade >= 55 && tutor.matchingGrade<70)" class="text-muted">You wont survive!</small>
+                        </div>
+                     </div>
+                     <div *ngIf="tutor.matchingGrade>=87" class="progress progress-xs">
+                        <div class="progress-bar bg-success" role="progressbar" [ngStyle]="{width: tutor.matchingGrade + '%'}" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                     </div>
+                     <div *ngIf="(tutor.matchingGrade >= 70 && tutor.matchingGrade<87)" class="progress progress-xs">
+                       <div class="progress-bar bg-warning" role="progressbar" [ngStyle]="{width: tutor.matchingGrade + '%'}" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                     </div>
+                     <div *ngIf="(tutor.matchingGrade >= 55 && tutor.matchingGrade<70)" class="progress progress-xs">
+                       <div class="progress-bar bg-danger" role="progressbar" [ngStyle]="{width: tutor.matchingGrade + '%'}" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                     </div>
+                     <br>
+                  </div>
+                  <div class="col-sm-3 col-md-2">
+                     <h3 class="text-center">{{tutor.costPerHour}}₪</h3>
+                     <div class="small text-muted text-center">per Hour</div>
+                  </div>
+                  <div class="col-sm-3 col-md-2">
+                     <button *ngIf="DateTime != ''" data-toggle="modal" (click)="myModal.show()" class="text-muted"
+                        type="button" class="btn btn-primary"><i class="fa fa-lightbulb-o"></i>&nbsp;Request a Meeting</button>
+                  </div>
+                  <div class="col-sm-3 col-md-2">
+                     <button *ngIf="percent_student.length != 0"
+                     type="button" class="btn btn-sm btn-pill btn-danger" (click)="isCollapsed = !isCollapsed"
+                     [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Details</button>
+                  </div>
+               </div>
+            </div>
+            <div id="collapseExample" [ngbCollapse]="!isCollapsed">
+               <div class="card-body">
+                  <tabset>
+                     <tab>
+                        <ng-template tabHeading><i class="icon-calculator"></i> Questions</ng-template>
+                        <hr class="mt-0">
+                        <div *ngFor="let item of percent_student; let i = index" class="progress-group mb-4">
+                           <div class="progress-group-bars">
+                              <div class="progress-group-prepend">
+                                 <div class="float-right">
+                                    <small class="text">Grade : {{item*tutor.weights_vector.wght[i] | number: '1.0-1'}} / {{tutor.weights_vector.wght[i] | number: '1.0-1'}}</small>
+                                 </div>
+                                 <span class="progress-group-text">
+                                    {{this.questions[i].name}}
+                                 </span>
+                              </div>
+                              <div class="progress progress-xs">
+                                 <div class="progress-bar bg-sucess" role="progressbar"
+                                    [ngStyle]="{width: item*100 + '%'}" aria-valuenow="0" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </tab>
+                     <tab>
+                        <ng-template tabHeading><i class="icon-pie-chart"></i> Chart </ng-template>
+                        <div class="chart-wrapper">
+                           <canvas baseChart class="chart" [datasets]="barChartData" [labels]="barChartLabels"
+                              [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"
+                              (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+                        </div>
+                     </tab>
+                  </tabset>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div bsModal #myModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+   aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title">Request a Meeting</h4>
+            <button type="button" class="close" (click)="myModal.hide()" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <p>Are you sure to make a Seasson with the selected tutor?</p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="myModal.hide()">No</button>
+            <button type="button" class="btn btn-primary" (click)="RequestMeeting()">yes</button>
+         </div>
+      </div>
+      <!-- /.modal-content -->
+   </div>
+   <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
