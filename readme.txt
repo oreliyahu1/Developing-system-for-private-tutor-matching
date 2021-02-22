@@ -1,6 +1,6 @@
 Authors
-Sami Odeh 315654962
-Or Eliyahu 307884890
+Sami Odeh
+Or Eliyahu
 ============================================
 
 Mobile-Friendly!
