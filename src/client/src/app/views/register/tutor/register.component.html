@@ -1,0 +1,173 @@
+<div class="app-body">
+   <div class="container">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+         <div class="row">
+            <div class="col">
+               <div class="card">
+                  <div class="card-body">
+                     <h1>Register</h1>
+                     <p class="text-muted">Create your account</p>
+                     <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                           <span class="input-group-text"><i class="icon-user"></i></span>
+                        </div>
+                        <input type="text" formControlName="firstname" class="form-control has-danger"
+                           placeholder="First name" autocomplete="First name" required>
+                     </div>
+                     <div *ngIf="isValidInput('firstname')" class="alert alert-danger">Please Fill First name!</div>
+                     <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                           <span class="input-group-text"><i class="icon-user"></i></span>
+                        </div>
+                        <input type="text" formControlName="lastname" class="form-control" placeholder="Last name"
+                           autocomplete="Last name" required>
+                     </div>
+                     <div *ngIf="isValidInput('lastname')" class="alert alert-danger">Please Fill Last name!</div>
+                     <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                           <span class="input-group-text">@</span>
+                        </div>
+                        <input type="text" formControlName="email" class="form-control" placeholder="Email"
+                           autocomplete="email" required>
+                     </div>
+                     <div *ngIf="isValidInput('email')" class="alert alert-danger">Please Fill Email!</div>
+                     <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                           <span class="input-group-text"><i class="icon-lock"></i></span>
+                        </div>
+                        <input type="password" formControlName="password" class="form-control" placeholder="Password"
+                           autocomplete="new-password" required>
+                     </div>
+                     <div *ngIf="isValidInput('password')" class="alert alert-danger">Please Fill Password!</div>
+                     <!--<div ng-show="isDisabled" class="alert alert-danger" role="alert">
+                     Error
+                     </div>-->
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col">
+               <div class="card">
+                  <div class="card-header">
+                     <strong>Questionnaire</strong>
+                  </div>
+                  <div class="card-body">
+                     <p class="text-muted">Fill the questions</p>
+                     <div *ngFor="let item of tutor_questionnaire.questions ,let i = index" class="form-group row">
+                        <ng-template [ngIf]="item.grade_rate === 2" [ngIfElse]="woptions">
+                           <label class="col-md-9 col-form-label" for="inline-radios">{{item.name}}</label>
+                           <div class="col-md-9 col-form-label">
+                              <div class="form-check form-check-inline mr-1" id="inline-radios">
+                                 <input [(ngModel)]="answerVector[i]" [ngModelOptions]="{standalone: true}"
+                                    class="form-check-input" type="radio" name="inline-radios" id="inlineRadio1"
+                                    value="1" checked>
+                                 <label class="form-check-label" for="inlineRadio1">Yes</label>
+                              </div>
+                              <div class="form-check form-check-inline mr-1">
+                                 <input [(ngModel)]="answerVector[i]" [ngModelOptions]="{standalone: true}"
+                                    class="form-check-input" type="radio" name="inline-radios" id="inlineRadio2"
+                                    value="0">
+                                 <label class="form-check-label" for="inlineRadio2">No</label>
+                              </div>
+                           </div>
+                        </ng-template>
+                        <ng-template #woptions>
+                           <label class="col-md-9 col-form-label" for="inline-radios">{{item.name}}</label>
+                           <div class="col-md-9 col-form-label">
+                              <pagination [totalItems]="item.grade_rate" [itemsPerPage]="1" [maxSize]="5"
+                                 class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                                 lastText="&raquo;" [boundaryLinks]="true" [rotate]="false"
+                                 [(ngModel)]="answerVector[i]" [ngModelOptions]="{standalone: true}"></pagination>
+                           </div>
+                        </ng-template>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col">
+               <div class="card">
+                  <div class="card-header">
+                     <strong>Location</strong>
+                  </div>
+                  <div class="card-body">
+                     <p class="text-muted">Fill the Location where you live.</p>
+                     <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                           <span class="input-group-text"><i class="icon-globe"></i></span>
+                        </div>
+                        <input matInput (ngModelChange)='searchCountry($event)' [matAutocomplete]="auto123"
+                           [(ngModel)]="selected_country" [ngModelOptions]="{standalone: true}" type="text"
+                           class="form-control has-danger" placeholder="Country" autocomplete="Country"
+                           autocomplete="off" required>
+                     </div>
+                     <mat-autocomplete #auto123="matAutocomplete">
+                        <mat-option *ngFor="let option of options2" [value]="option">
+                           <div class="item">
+                              <i class="icon-map"></i> &nbsp;
+                              <span [innerHTML]="option"></span>
+                           </div>
+                        </mat-option>
+                     </mat-autocomplete>
+                     <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                           <span class="input-group-text"><i class="icon-map"></i></span>
+                        </div>
+                        <input type="text" formControlName="City" class="form-control has-danger" placeholder="City"
+                           autocomplete="City" required>
+                     </div>
+                     <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                           <span class="input-group-text"><i class="icon-graph"></i></span>
+                        </div>
+                        <input type="text" formControlName="Street" class="form-control has-danger" placeholder="Street"
+                           autocomplete="Street" required>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="row">
+            <div class="col">
+               <div class="card">
+                  <div class="card-header">
+                     <strong>Knowledge</strong>
+                  </div>
+                  <div class="card-body">
+                     <p class="text-muted">Let us know more about you</p>
+                     <ng-multiselect-dropdown [placeholder]="'Courses'" [data]="coursesList"
+                        [(ngModel)]="selectedCoursesItems" [ngModelOptions]="{standalone: true}"
+                        [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                        (onSelectAll)="onSelectAll($event)">
+                     </ng-multiselect-dropdown>
+                     <div *ngIf="selectedCoursesItems.length < 2" class="alert alert-info">Please select at least 2 courses</div>
+                     <br>
+                     <ng-multiselect-dropdown [placeholder]="'Certificates'" [data]="certificatesList"
+                        [(ngModel)]="selectedCertificatesItems" [ngModelOptions]="{standalone: true}"
+                        [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                        (onSelectAll)="onSelectAll($event)">
+                     </ng-multiselect-dropdown>
+                     <br>
+                     <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                           <span class="input-group-text"><i class="icon-graph"></i></span>
+                        </div>
+                        <input type="number" formControlName="costPerHour" class="form-control has-danger"
+                           placeholder="Cost per Hour" min="0" max="250" required>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col">
+               <button type="submit" class="btn btn-block btn-success">Create Account</button>
+               <br>
+            </div>
+         </div>
+      </form>
+   </div>
+</div>

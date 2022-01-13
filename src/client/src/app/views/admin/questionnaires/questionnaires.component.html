@@ -1,0 +1,53 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-align-justify"></i> Questionnaires List
+            </div>
+            <div class="card-body">
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <div class="input-group">
+                    <input #input_search [(ngModel)]="search_input" type="text" id="input3-group2" name="input3-group2"
+                      class="form-control" placeholder="Search" autocomplete="off">
+                    <span class="input-group-append">
+                      <button type="button" class="btn btn-primary" (click)="search(input_search.value)"><i
+                          class="fa fa-search"></i></button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Q.ID</th>
+                    <th>Question</th>
+                    <th>Greade Rate</th>
+                    <th>Weight</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of calaDataSource()">
+                    <td>{{item.id}}</td>
+                    <td>{{item.type}}</td>
+                    <td>{{item.qid}}</td>
+                    <td>{{item.question}}</td>
+                    <td>{{item.grade_rate}}</td>
+                    <td>{{item.weight}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+              <br>
+              <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"
+                [itemsPerPage]="itemsPerPage" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;"
+                [boundaryLinks]="true" (pageChanged)="paginate($event)"></pagination>    
+            </div>
+          </div>
+    </div>
+  </div>
+</div>

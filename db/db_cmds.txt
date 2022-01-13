@@ -1,0 +1,15 @@
+go to
+C:\Program Files\MongoDB\Server\4.1\bin
+
+and run:
+
+restore ptmdb db
+mongorestore -d ptmdb "C:\Users\Or Eliyahu\Desktop\PrivateTutorMatching\db\ptmdb2\ptmdb"
+
+backup ptmdb db
+mongodump -d ptmdb -o "C:\Users\Or Eliyahu\Desktop\PrivateTutorMatching\db\ptmdb2"
+
+
+
+mongodump -d <database_name> -o <directory_backup>
+mongorestore -d <database_name> <directory_backup>

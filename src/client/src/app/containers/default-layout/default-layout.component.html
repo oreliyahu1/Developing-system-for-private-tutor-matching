@@ -1,0 +1,58 @@
+<app-header
+  [navbarBrandRouterLink]="['/home']"
+  [fixed]="true"
+  [navbarBrandFull]="{src: 'assets/img/brand/logo.svg', width: 141, height: 40, alt: 'Private Tutor Matching'}"
+  [navbarBrandMinimized]="{src: 'assets/img/brand/sygnet.svg', width: 30, height: 30, alt: 'Private Tutor Matching Logo'}"
+  [sidebarToggler]="false"
+  [asideMenuToggler]="false"
+  [mobileAsideMenuToggler]=false>
+
+  <div class="row justify-content-center animated fadeIn" style=" 
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    top: 0;
+    text-align: center;">
+    <div *ngFor="let alert of alertsDismiss" class="col-md-8">
+      <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+    </div>
+  </div>
+
+  <p *ngIf="this.userService.isLoggin(); then changeNavItems();" class="text-muted">  Welcome {{ this.userService.currentUserValue.type }}, {{ this.userService.currentUserValue.firstname }}</p>
+  
+  <ul class="nav navbar-nav ml-auto">
+    <ng-container *ngIf="this.userService.isLoggin()">
+      <li class="nav-item dropdown" dropdown placement="bottom right">
+        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
+          <img src="assets/img/avatars/user-icon.png" class="img-avatar">
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+          <div class="dropdown-header text-center"><strong>Settings</strong></div>
+          <a class="dropdown-item" (click)="openProfile()"><i class="fa fa-user"></i> Profile</a>
+          <div class="divider"></div>
+          <a class="dropdown-item" (click)="logout()"><i class="fa fa-lock"></i> Logout</a>
+        </div>
+      </li>
+    </ng-container>
+  </ul>
+
+</app-header>
+<div class="app-body">
+  <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)">
+    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"></app-sidebar-nav>
+    <app-sidebar-minimizer></app-sidebar-minimizer>
+  </app-sidebar>
+  <!-- Main content -->
+  <main class="main">
+    <cui-breadcrumb>
+    </cui-breadcrumb>
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div><!-- /.container-fluid -->
+  </main>
+</div>
+<app-footer>
+  <span>2020-2021 Private Tutor Matching.</span>
+  <span class="ml-auto">Sami Odeh & Or Eliyahu | Software Engineering Department | Ort Braude College</span>
+</app-footer>

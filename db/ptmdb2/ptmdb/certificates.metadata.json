@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"ptmdb.certificates"},{"v":{"$numberInt":"2"},"unique":true,"key":{"name":{"$numberInt":"1"}},"name":"name_1","ns":"ptmdb.certificates","background":true}],"uuid":"6654f6903ad74c208435fce99f373d09"}

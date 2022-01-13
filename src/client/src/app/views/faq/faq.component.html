@@ -1,0 +1,21 @@
+<div class="animated fadeIn">
+  <div class="row">
+      <div *ngFor="let item of faq ,let i = index" class="col-sm-6 col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-question"></i>{{item.question}}
+            <div class="card-header-actions">
+              <span class="badge badge-pill badge-danger">#{{i + 1}}</span>
+              <button type="button" class="card-header-action btn btn-link btn-minimize" (click)="toggleCollapse(i)"><i class={{toggleCollapseIcon(i)}}></i></button>
+            </div>
+          </div>
+          <div (collapsed)="collapsed($event)"
+          (expanded)="expanded($event)"
+          [collapse]="item.display"
+          class="card-body">
+          {{item.answer}}
+          </div>
+        </div>
+      </div><!--/.col-->
+  </div><!--/.row-->
+</div>
